@@ -1,9 +1,13 @@
+import ChatroomFooter from "./ChatroomFooter";
 import ChatroomHeader from "./ChatroomHeader";
+import ChatroomMessage from "./ChatroomMessage";
 
 export default function Chatroom() {
   return (
-    <div className="w-full h-full bg-red-100">
+    <div className="flex flex-col w-full h-full">
       <ChatroomHeader />
+      <ChatroomMessage />
+      <ChatroomFooter />
     </div>
   )
 }
