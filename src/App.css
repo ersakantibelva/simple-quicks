@@ -7,3 +7,19 @@
   border-radius: 100vh;
   background: #BDBDBD;
 }
+
+@keyframes taskButtonToLeft {
+  from {
+    bottom: 72px;
+    right: 24px;
+  }
+  to {
+    bottom: 31px;
+    right: 214px;
+  }
+}
+
+taskButtonToLeft {
+  animation-name: taskButtonToLeft;
+  animation-duration: 1s;
+}

@@ -1,6 +1,17 @@
+import { useDispatch, useSelector } from "react-redux";
+import { QUICK_CLOSEQUICK, QUICK_OPENQUICK } from "../../store/actionType";
+
 export default function QuicksButton() {
+  const { quickOpen } = useSelector((state) => state)
+  const dispatch = useDispatch()
+
+  const handleButton = () => {
+    if(quickOpen) dispatch({type: QUICK_CLOSEQUICK})
+    else dispatch({type: QUICK_OPENQUICK})
+  }
+
   return (
-    <div className="w-[68px] h-[68px] bg-blue-1 rounded-full absolute bottom-[27px] right-[24px] flex items-center mx-0">
+    <div onClick={handleButton} className="w-[68px] h-[68px] bg-blue-1 cursor-pointer rounded-full absolute bottom-[27px] right-[24px] flex items-center mx-0 z-20">
       <svg
         width="18"
         height="32"

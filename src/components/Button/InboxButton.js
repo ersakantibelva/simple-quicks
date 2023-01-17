@@ -1,7 +1,23 @@
+import { useDispatch, useSelector } from "react-redux";
+import { POPUP_OPENINBOX, POPUP_OPENPOPUP } from "../../store/actionType";
+
 export default function InboxButton() {
+  const { quickOpen, popupOpen, inboxOpen } = useSelector((state) => state)
+  const dispatch = useDispatch()
+
+  const handleInboxButton = () => {
+    if (!inboxOpen) {
+      dispatch({ type: POPUP_OPENINBOX })
+      dispatch({ type: POPUP_OPENPOPUP })
+    }
+  }
+
   return (
-    <div className="absolute flex items-center flex-col gap-[12px] bottom-[31px] right-32">
-      <div className="text-white">Inbox</div>
+    <div onClick={handleInboxButton} className={`absolute flex items-center flex-col gap-[12px] bottom-[31px] right-32 ${quickOpen && !inboxOpen ? "" : "hidden"}`}>
+      {
+        !popupOpen &&
+        <div className="text-white">Inbox</div>
+      }
       <div className="w-[60px] h-[60px] bg-gray-6 rounded-full flex items-center">
         <svg
           width="24"

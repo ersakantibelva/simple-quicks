@@ -1,7 +1,23 @@
+import { useDispatch, useSelector } from "react-redux";
+import { POPUP_CLOSETASK, POPUP_OPENPOPUP, POPUP_OPENTASK, QUICK_CLOSEQUICK } from "../../store/actionType";
+
 export default function TaskButton() {
+  const { quickOpen, taskOpen, popupOpen } = useSelector((state) => state)
+  const dispatch = useDispatch()
+  
+  const handleTaskButton = () => {
+  if(!taskOpen) {
+    dispatch({ type: POPUP_OPENTASK })
+    dispatch({ type: POPUP_OPENPOPUP })
+  }
+  }
+
   return (
-    <div className="absolute bottom-[31px] flex flex-col gap-3 right-[214px] items-center">
-      <div className="text-white">Task</div>
+    <div onClick={handleTaskButton} className={`absolute bottom-[31px] flex flex-col gap-3 right-[214px] items-center ${quickOpen && !taskOpen ? "" : "hidden"}`}>
+      {
+        !popupOpen &&
+        <div className="text-white">Task</div>
+      }
       <div className="w-[60px] h-[60px] bg-gray-6 rounded-full flex items-center">
         <svg
           width="26"

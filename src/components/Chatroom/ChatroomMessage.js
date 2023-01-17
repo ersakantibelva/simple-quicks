@@ -36,7 +36,7 @@ export default function ChatroomMessage() {
                 leaveTo="transform opacity-0 scale-95"
               >
                 <Menu.Items className="absolute left-0 z-10 mt-2 origin-top-right bg-white rounded-md shadow-lg max-w-fit ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <div className="py-1 w-32 h-20 text-left flex flex-col text-left border-gray-4 justify-between">
+                  <div className="flex flex-col justify-between w-32 h-20 py-1 text-left border-gray-4">
                     <Menu.Item>
                       {({ active }) => (
                         <button
@@ -48,7 +48,7 @@ export default function ChatroomMessage() {
                           //     : "text-gray-400",
                           //   "block px-4 py-2 text-sm"
                           // )}
-                          className="text-blue-1 text-left px-3 border-b border-gray-4 h-full"
+                          className="h-full px-3 text-left border-b text-blue-1 border-gray-4"
                         >
                           Edit
                         </button>
@@ -152,7 +152,7 @@ export default function ChatroomMessage() {
                 leaveTo="transform opacity-0 scale-95"
               >
                 <Menu.Items className="absolute left-0 z-10 mt-2 origin-top-right bg-white rounded-md shadow-lg max-w-fit ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <div className="py-1 w-32 h-20 text-left flex flex-col text-left border-gray-4 justify-between">
+                  <div className="flex flex-col justify-between w-32 h-20 py-1 text-left border-gray-4">
                     <Menu.Item>
                       {({ active }) => (
                         <button
@@ -164,7 +164,7 @@ export default function ChatroomMessage() {
                           //     : "text-gray-400",
                           //   "block px-4 py-2 text-sm"
                           // )}
-                          className="text-blue-1 text-left px-3 border-b border-gray-4 h-full"
+                          className="h-full px-3 text-left border-b text-blue-1 border-gray-4"
                         >
                           Edit
                         </button>
