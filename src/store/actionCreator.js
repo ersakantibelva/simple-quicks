@@ -1,6 +1,6 @@
 import axios from "axios";
 import { baseUrl } from "../baseUrl";
-import { TASK_FETCHTASKS } from "./actionType";
+import { INBOX_OPENGROUPCHAT, INBOX_SETGROUPCHAT, POPUP_CLOSEINBOX, TASK_ADDTASKS, TASK_FETCHTASKS } from "./actionType";
 
 export const fetchTodos = () => {
   return async (dispatch, getState) => {
@@ -24,5 +24,51 @@ export const fetchTodos = () => {
       payload: tasks
     })
     return tasks
+  }
+}
+
+export const editTask = (idx, newTask) => {
+  return (dispatch, getState) => {
+    const { tasks } = getState()
+    const newTaskArray = tasks.map((task, index) => {
+      if(index === idx) return newTask
+      return task
+    })
+
+    dispatch({
+      type: TASK_FETCHTASKS,
+      payload: newTaskArray
+    })
+    return tasks
+  }
+}
+
+export const deleteTask = (idx) => {
+  return async (dispatch, getState) => {
+    const { tasks } = getState()
+    const newTaskArray = []
+    tasks.forEach((task, index) => {
+      if(index !== idx) newTaskArray.push(task)
+    })
+
+    dispatch({
+      type: TASK_FETCHTASKS,
+      payload: newTaskArray
+    })
+  }
+}
+
+export const openGroupChat = (groupChat) => {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: INBOX_SETGROUPCHAT,
+      payload: groupChat
+    })
+    dispatch({
+      type: POPUP_CLOSEINBOX
+    })
+    dispatch({
+      type: INBOX_OPENGROUPCHAT
+    })
   }
 }

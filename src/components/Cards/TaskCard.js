@@ -1,21 +1,54 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { deleteTask, editTask } from "../../store/actionCreator";
 
-export default function TaskCard({ task }) {
+export default function TaskCard({ task, idx }) {
+  const dispatch = useDispatch();
   const [openDetail, setOpenDetail] = useState(false);
   const [dueAlert, setDueAlert] = useState("");
+  const [editTitle, setEditTitle] = useState(false);
   const [editDesc, setEditDesc] = useState(false);
   const [taskInput, setTaskInput] = useState({
     id: task.id,
     title: task.title,
     description: task.description,
     completed: false,
-    dueDate: task.dueDate,
+    dueDate: task.dueDate.toLocaleDateString("fr-CA"),
   });
+
+  const calcAlert = (date) => {
+    const today = new Date();
+    const dueAlertCalc = Math.floor(
+      (date - today) / (1000 * 3600 * 24)
+    );
+      console.log(dueAlertCalc);
+    let dueAlert
+
+    if (dueAlertCalc >= 0 && dueAlertCalc < 3) {
+      dueAlert = `${dueAlertCalc} Days Left`
+    } else if (dueAlertCalc < 0) {
+      dueAlert = "Due Date has passed"
+    }
+
+    return dueAlert
+  }
 
   const handleButtonDetail = () => {
     if (openDetail) setOpenDetail(false);
     else setOpenDetail(true);
+  };
+
+  const handleCheckButton = () => {
+    let value = true;
+    if (task.completed) value = false;
+    const newTask = {
+      ...taskInput,
+      completed: value,
+      dueDate: new Date(taskInput.dueDate)
+    };
+
+    dispatch(editTask(idx, newTask));
   };
 
   const handleOnChange = (e) => {
@@ -31,32 +64,53 @@ export default function TaskCard({ task }) {
   };
 
   const handleOnChangeDate = (e) => {
-    console.log(e.target.value);
+    const newDate = new Date(e.target.value)
+    const newTask = {
+      ...task,
+      dueDate: newDate,
+    };
+    console.log(newTask);
+    dispatch(editTask(idx, newTask))
+
+    setDueAlert(calcAlert(newDate))
+    taskInput.dueDate = e.target.value
   };
 
   const handleSubmit = (e) => {
-    console.log(e.code);
-    
+    if (e.code === "Enter") {
+      const name = e.target.name;
+      const value = e.target.value;
+      const newTask = {
+        ...taskInput,
+        dueDate: new Date(taskInput.dueDate),
+        [name]: value,
+      };
+
+      dispatch(editTask(idx, newTask));
+      if (name === "title") setEditTitle(false);
+      else if (name === "description") setEditDesc(false);
+    }
+  };
+
+  const handleDeleteTask = () => {
+    dispatch(deleteTask(idx))
   }
 
   useEffect(() => {
-    const today = new Date();
-    const dueAlertcalc = Math.floor(
-      (task.dueDate - today) / (1000 * 3600 * 24)
-    );
+    setDueAlert(calcAlert(task.dueDate))
 
-    if (dueAlertcalc >= 0 && dueAlertcalc < 3) {
-      setDueAlert(`${dueAlertcalc} Days Left`);
-    } else if (dueAlertcalc < 0) {
-      setDueAlert("Past Due Date");
+    if (!task.title) {
+      setOpenDetail(true);
+      setEditTitle(true);
     }
-
-    if (!task.title) setOpenDetail(true);
   }, []);
-
+  console.log(task);
   return (
     <div className="flex py-[22px] items-start">
-      <div className="w-[18px] h-[18px] mr-[22.5px]">
+      <div
+        onClick={handleCheckButton}
+        className="w-[18px] h-[18px] mr-[22.5px]"
+      >
         {task.completed ? (
           <svg
             width="18"
@@ -93,8 +147,9 @@ export default function TaskCard({ task }) {
       <div className="flex flex-col flex-grow gap-[13px]">
         <div className="flex items-start justify-between w-full gap-5">
           <div
+            onClick={() => setEditTitle(true)}
             className={`${
-              task.title
+              task.title && !editTitle
                 ? `${
                     task.completed ? "line-through text-gray-3" : "text-gray-2"
                   }`
@@ -103,9 +158,10 @@ export default function TaskCard({ task }) {
           >
             {task.title}
           </div>
-          {!task.title && (
+          {(!task.title || editTitle) && (
             <input
               onChange={handleOnChange}
+              onKeyDown={handleSubmit}
               value={taskInput.title}
               name="title"
               type="text"
@@ -144,7 +200,7 @@ export default function TaskCard({ task }) {
                 <input
                   type="date"
                   onChange={handleOnChangeDate}
-                  value={task.dueDate.toLocaleDateString("fr-CA")}
+                  value={taskInput.dueDate}
                   className="appearance-none"
                 />
               </div>
@@ -167,23 +223,22 @@ export default function TaskCard({ task }) {
                   />
                 </svg>
               </div>
-              {
-                !editDesc ?
+              {!editDesc ? (
                 <div
                   onClick={() => setEditDesc(!editDesc)}
                   className="leading-tight text-gray-2"
                 >
                   {task.description ? task.description : "No Description"}
                 </div>
-                :
-                <textarea 
-                  onKeyUp={handleSubmit}
+              ) : (
+                <textarea
+                  onKeyDown={handleSubmit}
                   name="description"
                   value={taskInput.description}
                   onChange={handleOnChange}
                   className="border border-gray-5 rounded-[5px] w-full p-1 outline-none"
                 />
-              }
+              )}
             </div>
           </>
         ) : (
@@ -202,7 +257,7 @@ export default function TaskCard({ task }) {
             onClick={handleButtonDetail}
           >
             <path
-              d="M8.825 0.912476L5 4.72914L1.175 0.912476L0 2.08748L5 7.08747L10 2.08748L8.825 0.912476Z"
+              d="M1.175 7.08753L5 3.27086L8.825 7.08752L10 5.91252L5 0.912526L-1.02722e-07 5.91253L1.175 7.08753Z"
               fill="#4F4F4F"
             />
           </svg>
@@ -216,7 +271,7 @@ export default function TaskCard({ task }) {
             onClick={handleButtonDetail}
           >
             <path
-              d="M1.175 7.08753L5 3.27086L8.825 7.08752L10 5.91252L5 0.912526L-1.02722e-07 5.91253L1.175 7.08753Z"
+              d="M8.825 0.912476L5 4.72914L1.175 0.912476L0 2.08748L5 7.08747L10 2.08748L8.825 0.912476Z"
               fill="#4F4F4F"
             />
           </svg>
@@ -256,13 +311,7 @@ export default function TaskCard({ task }) {
                   {({ active }) => (
                     <button
                       type="button"
-                      // onClick={}
-                      // className={classNames(
-                      //   active
-                      //     ? "bg-gray text-gray-300"
-                      //     : "text-gray-400",
-                      //   "block px-4 py-2 text-sm"
-                      // )}
+                      onClick={handleDeleteTask}
                       className="text-[#EB5757] text-left px-3 h-full"
                     >
                       Delete

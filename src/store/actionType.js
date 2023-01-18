@@ -17,3 +17,9 @@ export const POPUP_CLOSEINBOX = "quick/closeInbox"
 export const TASK_FETCHTASKS = "task/fetchTasks"
 
 export const TASK_ADDTASKS = "task/addTasks"
+
+export const INBOX_OPENGROUPCHAT = "inbox/openGroupChat"
+
+export const INBOX_CLOSEGROUPCHAT = "inbox/closeGroupChat"
+
+export const INBOX_SETGROUPCHAT = "inbox/setGroupChat"

@@ -114,10 +114,10 @@ export default function Task() {
         {/* Task List */}
         <div className="flex flex-col overflow-y-auto mb-5 ml-[29px] mr-[13px] pr-[25px] justify-between scrollbar">
           {
-            tasks.map(task => {
+            tasks.map((task, idx) => {
               return (
               <>
-                <TaskCard task={task} />
+                <TaskCard task={task} idx={idx} key={task.id} />
                 <hr className="border-gray-3"></hr>
               </>
               )

@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
+import GroupChatCard from "./Cards/GroupChatCard";
 
 export default function Inbox() {
-  const { popupOpen, inboxOpen } = useSelector((state) => state)
+  const { popupOpen, inboxOpen, groupChats } = useSelector((state) => state)
   const dispatch = useDispatch()
 
   if(popupOpen && inboxOpen) {
@@ -30,6 +31,13 @@ export default function Inbox() {
         </div>
   
         <div className="px-8 my-1">
+          {
+            groupChats.map((groupChat, idx) => {
+              return (
+                <GroupChatCard key={groupChat.id} groupChat={groupChat} idx={idx} />
+              )
+            })
+          }
           {/* 1st Message */}
           <div className="w-full h-16 my-[22px] flex gap-[17px]">
             <div className="h-full w-[51px]">
