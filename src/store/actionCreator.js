@@ -1,6 +1,6 @@
 import axios from "axios";
 import { baseUrl } from "../baseUrl";
-import { INBOX_OPENGROUPCHAT, INBOX_SETGROUPCHAT, POPUP_CLOSEINBOX, TASK_ADDTASKS, TASK_FETCHTASKS } from "./actionType";
+import { INBOX_CLOSEGROUPCHAT, INBOX_OPENGROUPCHAT, INBOX_SETGROUPCHAT, POPUP_CLOSEINBOX, POPUP_OPENINBOX, TASK_ADDTASKS, TASK_FETCHTASKS } from "./actionType";
 
 export const fetchTodos = () => {
   return async (dispatch, getState) => {
@@ -69,6 +69,17 @@ export const openGroupChat = (groupChat) => {
     })
     dispatch({
       type: INBOX_OPENGROUPCHAT
+    })
+  }
+}
+
+export const closeGroupChat = () => {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: INBOX_CLOSEGROUPCHAT
+    })
+    dispatch({
+      type: POPUP_OPENINBOX
     })
   }
 }

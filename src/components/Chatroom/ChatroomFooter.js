@@ -8,7 +8,7 @@ export default function ChatroomFooter() {
       </input>
 
       <div className="w-[76px] text-sm flex items-center text-white rounded-[5px] bg-blue-1">
-        <h1 className="w-full">Send</h1>
+        <h1 className="w-full font-semibold text-center">Send</h1>
       </div>
 
     </div>

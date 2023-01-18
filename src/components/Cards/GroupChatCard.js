@@ -5,7 +5,6 @@ export default function GroupChatCard({ groupChat, idx }) {
   const dispatch = useDispatch()
 
   const handleOpenChatRoom = () => {
-    console.log('masuk');
     dispatch(openGroupChat(groupChat))
   }
   return (

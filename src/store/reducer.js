@@ -15,6 +15,11 @@ const initialState = {
       type: "group",
       name: "109220-Naturalization",
       totalParticipant: 3,
+      members: [
+        "Claren",
+        "Mary Hilda",
+        "Obaidullah Amarkhil"
+      ],
       Messages: [
         {
           id: 1,

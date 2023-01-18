@@ -1,7 +1,16 @@
-export default function ChatroomHeader() {
+import { useDispatch } from "react-redux";
+import { closeGroupChat } from "../../store/actionCreator";
+
+export default function ChatroomHeader({ groupChat }) {
+  const dispatch = useDispatch()
+  
+  const handleBackButton = () => {
+    dispatch(closeGroupChat())
+  }
+  
   return (
     <div className="h-[73.5px] flex border-b border-gray-4 gap-[18px] items-center px-[21px]">
-      <div className="w-[24px] justify-self-end">
+      <div onClick={handleBackButton} className="w-[24px] justify-self-end">
         <svg
           width="16"
           height="16"
@@ -18,12 +27,12 @@ export default function ChatroomHeader() {
 
       <div className="flex flex-col flex-grow text-left">
         <h1 className="font-semibold text-blue-1">
-          I-589 - AMARKHIL, Obaidullah [Affirmative Filling with ZHN]
+          { groupChat.name }
         </h1>
-        <h2 className="text-xs text-gray-1">3 Participants</h2>
+        <h2 className="text-xs text-gray-1">{ groupChat.totalParticipant } Participants</h2>
       </div>
 
-      <div>
+      <div onClick={handleBackButton}>
         <svg
           width="14"
           height="14"
