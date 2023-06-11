@@ -13,7 +13,7 @@ export default function TaskCard({ task, idx }) {
     id: task.id,
     title: task.title,
     description: task.description,
-    completed: false,
+    isCompleted: false,
     dueDate: task.dueDate.toLocaleDateString("fr-CA"),
   });
 
@@ -41,10 +41,10 @@ export default function TaskCard({ task, idx }) {
 
   const handleCheckButton = () => {
     let value = true;
-    if (task.completed) value = false;
+    if (task.isCompleted) value = false;
     const newTask = {
       ...taskInput,
-      completed: value,
+      isCompleted: value,
       dueDate: new Date(taskInput.dueDate)
     };
 
@@ -111,7 +111,7 @@ export default function TaskCard({ task, idx }) {
         onClick={handleCheckButton}
         className="w-[18px] h-[18px] mr-[22.5px]"
       >
-        {task.completed ? (
+        {task.isCompleted ? (
           <svg
             width="18"
             height="18"
@@ -151,7 +151,7 @@ export default function TaskCard({ task, idx }) {
             className={`${
               task.title && !editTitle
                 ? `${
-                    task.completed ? "line-through text-gray-3" : "text-gray-2"
+                    task.isCompleted ? "line-through text-gray-3" : "text-gray-2"
                   }`
                 : "hidden"
             } font-semibold w-[356px]`}
@@ -169,7 +169,7 @@ export default function TaskCard({ task, idx }) {
               placeholder="Type Task Style"
             />
           )}
-          {!task.completed && (
+          {!task.isCompleted && (
             <div className="text-sm text-[#EB5757]">{dueAlert}</div>
           )}
           <div className="text-sm text-gray-2">

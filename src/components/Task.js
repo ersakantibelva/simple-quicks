@@ -30,7 +30,7 @@ export default function Task() {
     if(popupOpen && taskOpen) {
       dispatch(fetchTodos())
       .then((data) => {
-        console.log(data);
+        console.log('data in useEffect >>>', data);
       })
     }
   }, [popupOpen, taskOpen])

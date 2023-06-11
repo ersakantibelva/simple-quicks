@@ -5,25 +5,21 @@ import { INBOX_CLOSEGROUPCHAT, INBOX_OPENGROUPCHAT, INBOX_SETGROUPCHAT, POPUP_CL
 export const fetchTodos = () => {
   return async (dispatch, getState) => {
     const { data } = await axios({
-      url: `${baseUrl}/todos`,
+      url: `${baseUrl}/tasks`,
       method: 'GET',
     })
     const tasks = data.slice(0, 5).map(el => {
-      let start = new Date(2023, 0, 16)
-      let end = new Date(2023, 0, 20)
-
-      const dueDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
-      const description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      const dueDate = new Date(el.dueDate)
 
       el.dueDate = dueDate
-      el.description = description
       return el
     })
+
     dispatch({
       type: TASK_FETCHTASKS,
-      payload: tasks
+      payload: data
     })
-    return tasks
+    return data
   }
 }
 
