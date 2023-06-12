@@ -17,9 +17,9 @@ export const fetchTodos = () => {
 
     dispatch({
       type: TASK_FETCHTASKS,
-      payload: data
+      payload: tasks
     })
-    return data
+    return tasks
   }
 }
 
